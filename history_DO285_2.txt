@@ -1,0 +1,1000 @@
+oc replace -f ~/DO280/labs/auth-provider/oauth.yaml
+cat ~/DO280/labs/auth-provider/oauth.yaml
+cat  ~/DO280/solutions/auth-provider/oauth.yaml 
+oc get oauth cluster -o yaml > ~/DO280/labs/auth-provider/oauth.yaml
+oc replace -f ~/DO280/labs/auth-provider/oauth.yaml
+vim oauth.yaml
+oc replace -f ~/DO280/labs/auth-provider/oauth.yaml
+oc replace -f oauth.yaml
+vim oauth.yaml
+oc replace -f oauth.yaml
+oc get oauth cluster -o yaml > ~/DO280/labs/auth-provider/oauth.yaml2
+oc replace -f oauth.yaml
+oc get oauth cluster -o yaml > ~/DO280/labs/auth-provider/oauth.yaml
+vi oauth.yaml
+oc replace -f oauth.yaml
+cat oauth.yaml
+ oc login -u admin -p redhat
+oc login -u admin -p redhat
+oc get nodes 
+oc get pods
+oc get pod
+oc login -u admin -p redhat
+oc get nodes 
+oc status
+oc login -u admin -p redhat
+oc get nodes 
+oc login -u developer -p developer
+oc get nodes 
+oc login -u admin -p redhat
+oc get users
+oc get identity
+oc extract secret/localusers -n openshift-config --to ~/DO280/labs/auth-provider/ --confirm
+oc get secret 
+oc get secret
+oc get secret/localusers
+ll
+date
+cat htpasswd
+htpasswd -b ~/DO280/labs/auth-provider/htpasswd manager redhat
+cat htpasswd
+oc set data secret/localusers --from-file htpasswd=~/DO280/labs/auth-provider/htpasswd -n openshift-config
+oc get secret -n openshift-config
+cat oauth.yaml
+oc login -u manager -p redhat
+oc login -u admin -p redhat
+oc login -u manager -p redhat
+oc new-project auth-provider
+oc status
+oc login -u admin -p redhat
+oc delete project auth-provider
+oc extract secret/localusers -n openshift-config --to ~/DO280/labs/auth-provider/ --confirm
+ll
+MANAGER_PASSWD="$(openssl rand -hex 15)"
+htpasswd -b ~/DO280/labs/auth-provider/htpasswd manager ${MANAGER_PASSWD}
+cat htpasswd 
+echo ${MANAGER_PASSWD}
+oc set data secret/localusers --from-file htpasswd=~/DO280/labs/auth-provider/htpasswd -n openshift-config 
+oc login -u manager -p ${MANAGER_PASSWD}
+oc login -u admin -p redhat
+oc extract secret/localusers -n openshift-config --to ~/DO280/labs/auth-provider/ --confirm
+htpasswd -D ~/DO280/labs/auth-provider/htpasswd manager
+cat htpasswd 
+oc set data secret/localusers --from-file htpasswd=~/DO280/labs/auth-provider/htpasswd -n openshift-config
+oc get identity
+oc login -u manager -p ${MANAGER_PASSWD}
+oc get identity
+oc delete identity "myusers:manager"
+oc get identity
+oc get users
+oc get identity
+oc login -u manager -p ${MANAGER_PASSWD}
+oc get identity
+oc get users
+oc login -u manager -p ${MANAGER_PASSWD}
+oc delete user manager
+oc get users
+oc login -u manager -p ${MANAGER_PASSWD}
+oc login -u kubeadmin -p ${RHT_OCP4_KUBEADM_PASSWD}
+oc get users
+oc delete project auth-provider
+oc 
+oc edit oauth
+oc get users
+oc login -u admin -p redhat
+oc projects
+oc delete project auth-provider
+cat ~/DO280/solutions/auth-review/oauth.yaml
+exit
+df
+lab auth-rbac start
+lab auth-rbac finish
+lab auth-provider finish
+lab auth-rbac start
+oc login -u admin -p redhat https://api.ocp4.example.com:6443
+oc get clusterrolebinding -o wide | grep -E 'NAME|self-provisioner'
+oc describe clusterrolebindings self-provisioners
+oc adm policy remove-cluster-role-from-group self-provisioner system:authenticated:oauth
+oc describe clusterrolebindings self-provisioners
+oc get clusterrolebinding -o wide | grep -E 'NAME|self-provisioner'
+ oc login -u leader -p redhat
+oc new-project test
+oc login -u admin -p redhat
+oc new-project auth-rbac
+oc policy add-role-to-user admin leader
+oc adm groups new dev-group
+oc adm groups add-users dev-group developer
+oc adm groups new qa-group
+oc adm groups add-users qa-group qa-engineer
+oc get groups
+oc get users
+oc login -u leader -p redhat
+oc policy add-role-to-group edit dev-group
+oc get users
+oc policy add-role-to-group view qa-group
+oc get rolebindings -o wide
+oc login -u developer -p developer
+oc new-app --name httpd httpd:2.4
+oc policy add-role-to-user edit qa-engineer
+oc login -u qa-engineer -p redhat
+oc scale deployment httpd --replicas 3
+oc adm policy add-cluster-role-to-group --rolebinding-name self-provisioners self-provisioner system:authenticated:oauth
+hisotry
+history
+oc get clusterrolebinding -o wide | grep -E 'NAME|self-provisioner'
+oc id
+oc login -u admin -p redhat
+oc get clusterrolebinding -o wide | grep -E 'NAME|self-provisioner'
+oc adm policy add-cluster-role-to-group --rolebinding-name self-provisioners self-provisioner system:authenticated:oauth
+oc get clusterrolebinding -o wide 
+lab auth-rbac finish
+lab auth-review start
+cd ~/DO280/labs/auth-review/
+ll
+cat tmp_users 
+htpasswd -D ~/DO280/labs/auth-review/tmp_users analyst
+cat tmp_users 
+for NAME in tester leader admin developer;  do htpasswd -b ~/DO280/labs/auth-review/tmp_users ${NAME} 'L@bR3v!ew';  done
+cat tmp_users 
+source /usr/local/etc/ocp4.config
+oc login -u kubeadmin -p ${RHT_OCP4_KUBEADM_PASSWD} https://api.ocp4.example.com:6443
+oc create secret generic auth-review --from-file htpasswd=/home/student/DO280/labs/auth-review/tmp_users -n openshift-config
+oc get oauth cluster -o yaml > ~/DO280/labs/auth-review/oauth.yaml
+ll
+vi oauth.yaml
+oc replace -f ~/DO280/labs/auth-review/oauth.yaml
+watch oc get pods -n openshift-authentication
+oc get user
+oc get users
+oc adm policy add-cluster-role-to-user cluster-admin admin
+oc get users
+oc login -u admin -p 'L@bR3v!ew'
+oc get users
+oc get role
+oc get roles
+oc get nodes
+oc login -u developer -p 'L@bR3v!ew'
+oc get nodes
+oc get users
+oc get user
+oc login -u admin -p 'L@bR3v!ew'
+oc adm policy remove-cluster-role-from-group self-provisioner system:authenticated:oauth
+oc adm groups new managers
+oc adm groups add-users managers leader
+oc adm policy add-cluster-role-to-group self-provisioner managers
+oc login -u leader -p 'L@bR3v!ew'
+oc new-project auth-review
+oc get project
+oc login -u admin -p 'L@bR3v!ew'
+oc adm groups new developers
+oc adm groups add-users developers developer
+oc policy add-role-to-group edit developers
+oc get rolebinding
+oc get role
+oc get group
+oc adm groups new qa
+oc get group
+oc adm groups add-users qa tester
+oc get group
+oc get user
+oc policy add-role-to-group view qa
+lab auth-review grade
+oc get user
+lab auth-review finish
+cd
+lab auth-review finish
+lab authorization-secrets start
+oc login -u developer -p developer https://api.ocp4.example.com:6443
+oc new-project authorization-secrets
+oc create secret generic mysql --from-literal user=myuser --from-literal password=redhat123 --from-literal database=test_secrets --from-literal hostname=mysql
+oc new-app --name mysql --image registry.redhat.io/rhel8/mysql-80:1
+oc get pods -w
+spec:
+  identityProviders:
+  - htpasswd:
+      fileData:
+        name: auth-review
+    mappingMethod: claim
+    name: htpasswd
+    type: HTPasswd
+oc set env deployment/mysql --from secret/mysql --prefix MYSQL_ 
+oc get pods -w
+oc rsh mysql-7499cd9c94-q4dnb
+oc set volume deployment/mysql --add --type secret --mount-path /run/secrets/mysql --secret-name mysql
+oc get pods -w
+oc rsh mysql-548ff9c97f-68p5l
+oc new-app --name quotes --image quay.io/redhattraining/famous-quotes:2.1
+oc status
+oc pod
+oc get pod
+oc get pod -w
+oc set env deployment/quotes --from secret/mysql --prefix QUOTES_
+oc get secrets
+oc get pod -w
+oc get pods -l deployment=quotes
+oc logs quotes-8595f8bfcf-h5jjc | head -n2
+oc logs quotes-8595f8bfcf-h5jjc | head 
+oc logs quotes-8595f8bfcf-h5jjc 
+oc expose service quotes --hostname quotes.apps.ocp4.example.com
+oc get route quotes
+curl -s http://quotes.apps.ocp4.example.com/env | grep QUOTES_
+curl -s http://quotes.apps.ocp4.example.com/random
+curl -s http://quotes.apps.ocp4.example.com/status
+curl -s http://quotes.apps.ocp4.example.com/
+curl -s http://quotes.apps.ocp4.example.com/?
+curl -s http://quotes.apps.ocp4.example.com/env
+oc delete project authorization-secrets 
+oc get pods
+oc login -u developer -p developer https://api.ocp4.example.com:6443
+oc get pods
+lab authorization-secrets finish
+lab authorization-scc start
+oc login -u developer -p developer https://api.ocp4.example.com:6443
+oc new-project authorization-scc
+oc new-app --name gitlab --image quay.io/redhattraining/gitlab-ce:8.4.3-ce.0
+oc get pod -w
+oc logs gitlab-d89cd88f8-zw9jt 
+oc login -u admin -p redhat https://api.ocp4.example.com:6443
+oc get pod/gitlab-d89cd88f8-zw9jt -o yaml | oc adm policy scc-subject-review -f -
+oc create sa gitlab-sa
+oc adm policy add-scc-to-user anyuid -z gitlab-sa
+oc login -u developer -p developer
+oc set serviceaccount deployment/gitlab gitlab-sa
+oc get pod
+oc expose service/gitlab --port 80 --hostname gitlab.apps.ocp4.example.com
+oc get route
+curl -sL http://gitlab.apps.ocp4.example.com/ | grep '<title>'
+oc get route
+oc get pod
+oc delete project authorization-scc
+lab authorization-scc finish
+lab authorization-review start
+oc login -u developer -p developer https://api.ocp4.example.com:6443
+ oc new-project authorization-review
+oc create secret generic review-secret --from-literal user=wpuser --from-literal password=redhat123 --from-literal database=wordpress
+ oc new-app --name mysql --image registry.redhat.io/rhel8/mysql-80:1
+oc get pod -w
+oc set env deployment/mysql --prefix MYSQL_ --from secret/review-secret
+oc get pod -w
+oc get pod
+oc new-app --name wordpress 
+    --image quay.io/redhattraining/wordpress:5.7-php7.4-apache 
+    -e WORDPRESS_DB_HOST=mysql 
+    -e WORDPRESS_DB_NAME=wordpress 
+    -e WORDPRESS_TITLE=auth-review 
+    -e WORDPRESS_USER=wpuser 
+    -e WORDPRESS_PASSWORD=redhat123 
+    -e WORDPRESS_EMAIL=student@redhat.com 
+oc new-app --name wordpress     --image quay.io/redhattraining/wordpress:5.7-php7.4-apache     -e WORDPRESS_DB_HOST=mysql     -e WORDPRESS_DB_NAME=wordpress     -e WORDPRESS_TITLE=auth-review     -e WORDPRESS_USER=wpuser     -e WORDPRESS_PASSWORD=redhat123     -e WORDPRESS_EMAIL=student@redhat.com     -e WORDPRESS_URL=wordpress-review.apps.ocp4.example.com
+atch oc get pod
+watch oc get pod
+oc set env deployment/wordpress --prefix WORDPRESS_DB_ --from secret/review-secret
+watch oc get pod
+oc logs wordpress-684c9d4ffc-qdwjh 
+oc login -u admin -p redhat
+oc get pod
+oc get pod wordpress-684c9d4ffc-qdwjh  -o yaml
+oc get pod wordpress-684c9d4ffc-qdwjh  -o yaml  | oc adm policy scc-subject-review -f -
+oc create serviceaccount wordpress-sa
+oc adm policy add-scc-to-user anyuid -z wordpress-sa
+oc set serviceaccount deployment/wordpress wordpress-sa
+oc get pod
+oc login -u admin -p redhat
+oc logs wordpress-bf74d8fcc-4wl7z 
+oc login -u developer -p developer https://api.ocp4.example.com:6443
+oc expose service/wordpress --hostname wordpress-review.apps.ocp4.example.com
+curl -s http://wordpress-review.apps.ocp4.example.com/wp-admin/install.php | grep Installation
+curl -s http://wordpress-review.apps.ocp4.example.com/wp-admin/install.php 
+man curl
+lab authorization-review grade
+lab authorization-review finish
+oc get service/frontend -o jsonpath="{.spec.clusterIP}{'\n'}"
+curl -m 10 -v http://172.30.23.147:8080
+cd
+lab network-sdn start
+oc login -u developer -p developer https://api.ocp4.example.com:6443
+oc new-project network-sdn
+cd ~/DO280/labs/network-sdn
+ll
+ oc status
+oc create -f todo-db.yaml
+cat todo-db.yaml
+oc status
+oc get pods
+oc cp db-data.sql mysql-68b778f957-5fmkx:/tmp/
+oc rsh mysql-68b778f957-5fmkx /bin/bash
+ oc create -f todo-frontend.yaml
+oc status
+oc get ods
+oc get pods
+cat todo-frontend.yaml
+oc status
+oc status --suggest
+oc get pods
+oc expose service frontend --hostname todo.apps.ocp4.example.com
+oc get routes.route.openshift.io 
+oc logs frontend-85d58fb74c-gsz79
+oc get service/mysql -o jsonpath="{.spec.clusterIP}{'\n'}"
+oc get service/mysql 
+oc get service/mysql -o json
+oc get service/mysql -o jsonpath="{.spec.clusterIP}{'\n'}"
+oc debug -t deployment/frontend
+oc debug -t deployment/mysql --image registry.access.redhat.com/ubi8/ubi:8.4
+oc get pods -o wide -l name=frontend
+oc get pods -o wide 
+oc debug -t deployment/mysql --image registry.access.redhat.com/ubi8/ubi:8.4
+oc get svc
+oc describe svc/frontend
+oc describe svc mysql 
+oc describe deployment/frontend | grep -A1 Labels
+ll
+cat todo-frontend.yaml 
+oc edit svc/frontend
+oc get pod -w
+oc describe svc/frontend
+oc get svc
+cd
+oc delete project network-sdn
+lab network-sdn finish
+lab network-ingress start
+oc login -u developer -p developer https://api.ocp4.example.com:6443
+oc new-project network-ingress
+oc create -f ~/DO280/labs/network-ingress/todo-app-v1.yaml 
+oc status
+oc expose svc todo-http --hostname todo-http.apps.ocp4.example.com
+oc get routes
+ip addr | grep 172.25.250.9
+sudo tcpdump -i eth0 -A -n port 80 | grep "angular"
+cd ~/DO280/labs/network-ingress
+oc create route edge todo-https --service todo-http --hostname todo-https.apps.ocp4.example.com
+oc get route
+curl -I -v https://todo-https.apps.ocp4.example.com
+oc get svc todo-http -o jsonpath="{.spec.clusterIP}{'\n'}"
+oc get pods
+kubectl get pod
+kubectl get svc
+oc debug -t deployment/todo-http 
+oc delete route todo-https
+pwd
+cd certs
+ll
+cat training-CA.key
+cat openssl-commands.txt
+sh openssl-commands.txt
+ls -ltr
+pwd
+cd ..
+oc create secret tls todo-certs --cert certs/training.crt --key certs/training.key
+oc create -f todo-app-v2.yaml
+oc get pods
+watch oc get pods
+oc get pods
+oc describe pod todo-https-6c87f66c89-77jd2 | gre -A2 Mounts
+oc describe pod todo-https-6c87f66c89-77jd2 | grep -A2 Mounts
+oc create route passthrough todo-https --service todo-https --port 8443 --hostname todo-https.apps.ocp4.example.com
+curl -vv -I --cacert certs/training-CA.pem https://todo-https.apps.ocp4.example.com
+cat certs/training-CA.pem 
+cat certs/training-CA.lry
+cat certs/training-CA.key
+oc get svc todo-https -o jsonpath="{.spec.clusterIP}{'\n'}"
+oc debug -t deployment/todo-https --image registry.access.redhat.com/ubi8/ubi:8.4
+man curl
+cd
+oc delete project network-ingress
+lab network-ingress finish
+~/DO280/labs/network-policy/display-project-info.sh
+oc rsh test-54bc94685b-qbgcn | curl 10.9.0.17:8080 | grep -i hello
+oc rsh test-54bc94685b-qbgcn curl 10.9.0.17:8080 | grep -i hello
+curl -s hello-network-policy.apps.ocp4.example.com | grep Hello
+oc new-project network-test
+oc new-app --name sample-app --image quay.io/redhattraining/hello-world-nginx:v1.0
+oc pods
+oc get pods
+~/DO280/labs/network-policy/display-project-info.sh
+oc rsh sample-app-7cf4f6ff64-cccnr curl 10.9.0.17:8080 | grep -i hello
+oc rsh sample-app-7cf4f6ff64-cccnr curl 10.9.0.18:8080 | grep -i hello
+oc rsh test-54bc94685b-qbgcn curl 10.9.0.17:8080 | grep -i hello
+~/DO280/labs/network-policy/display-project-info.sh
+oc project network-test
+oc rsh sample-app-7cf4f6ff64-cccnr curl 10.9.0.18:8080 | grep -i hello
+oc get pod
+oc project network-test
+oc rsh sample-app-7cf4f6ff64-cccnr curl 10.9.0.17:8080 | grep -i hello
+oc rsh sample-app-7cf4f6ff64-cccnr curl 10.9.0.18:8080 | grep -i hello
+~/DO280/labs/network-policy/display-project-info.sh
+oc rsh sample-app-7cf4f6ff64-cccnr curl 10.9.0.17:8081 | grep -i hello
+history
+curl -s hello-network-policy.apps.ocp4.example.com | grep Hello
+cd
+ll
+cd DO280/solutions/network-review/
+ll
+diff php-http.yaml /home/student/DO280/labs/network-review/php-http.yaml 
+lab network-policy start
+oc login -u developer -p developer https://api.ocp4.example.com:6443
+oc new-project network-policy
+oc new-app --name hello --image quay.io/redhattraining/hello-world-nginx:v1.0
+oc get pods
+oc new-app --name test --image quay.io/redhattraining/hello-world-nginx:v1.0
+oc get pods
+oc expose service hello
+oc get pod
+oc project project network-policy 
+oc project network-policy 
+oc get pod
+cd ~/DO280/labs/network-policy
+cat deny-all.yaml
+vi deny-all.yaml
+oc create -f deny-all.yaml
+curl -s hello-network-policy.apps.ocp4.example.com | grep Hello
+curl -s hello-network-policy.apps.ocp4.example.com 
+ll
+cat allow-specific.yaml 
+cp ~/DO280/solutions/network-policy/allow-specific.yaml .
+cat allow-specific.yaml 
+oc get pod
+oc create -n network-policy -f allow-specific.yaml
+oc get networkpolicies -n network-policy
+oc login -u admin -p redhat
+oc label namespace network-test name=network-test
+oc describe namespace network-test
+oc login -u developer -p developer
+oc get project
+oc project
+ll
+vi allow-from-openshift-ingress.yaml
+oc create -n network-policy -f allow-from-openshift-ingress.yaml
+oc get network-policy
+oc get networkpolicy
+oc get networkpolicis
+oc get networkpolicies
+oc get networkpolicies -n network-policy
+oc login -u admin -p redhat
+oc label namespace default network.openshift.io/policy-group=ingress
+cd
+lab network-policy finish
+lab network-review start
+oc new-project network-review
+cd ~/DO280/labs/network-review
+vi php-http.yaml
+oc create -f php-http.yaml
+vi php-http.yaml
+oc create -f php-http.yaml
+pwd
+vi php-http.yaml
+oc create -f php-http.yaml
+oc project
+oc delete projects network-review 
+histaory | tail -20
+history | tail -20
+oc new-project network-review
+oc create -f php-http.yaml
+oc get pods
+oc login -u developer -p developer https://api.ocp4.example.com:6443
+oc get pods
+oc get project
+oc get projects
+oc project network -review
+oc project network-review
+oc new-project network-review
+oc project network-review
+oc get pod
+oc login -u developer -p developer https://api.ocp4.example.com:6443
+oc create -f php-http.yaml
+oc delete projects network-review 
+lab network-review stop
+lab network-review finish
+lab network-review start
+oc project network-review
+oc new-project network-review
+cd ~/DO280/labs/network-review
+ls -ltr
+cp ~/DO280/solutions/network-review/php-http .
+cp ~/DO280/solutions/network-review/php-http.yaml .
+oc create -f php-http.yaml
+oc get pods
+oc get pods -w
+oc expose svc php-http  --hostname php-http.apps.ocp4.example.com
+oc get route
+vi deny-all.yaml 
+oc create -f deny-all.yaml 
+curl http://php-http.apps.ocp4.example.com
+vi allow-from-openshift-ingress.yaml
+cp ~/DO280/solutions/network-review/allow-from-openshift-ingress.yaml allow-from-openshift-ingress.yaml.sol
+ll
+diff allow-from-openshift-ingress.yaml.sol allow-from-openshift-ingress.yaml
+cat allow-from-openshift-ingress.yaml
+cat allow-from-openshift-ingress.yaml.sol 
+cp allow-from-openshift-ingress.yaml.sol allow-from-openshift-ingress.yaml
+oc create -f allow-from-openshift-ingress.yaml
+oc login -u admin -p redhat
+oc label namespace default network.openshift.io/policy-group=ingress
+for X in {1..4}; do curl -s http://php-http.apps.ocp4.example.com | grep "PHP"; done
+for X in {1..4}; do curl -s http://php-http.apps.ocp4.example.com; done
+oc login -u developer -p developer
+cd certs
+ls -l
+cat openssl-commands.txt 
+openssl req -new -key training.key   -subj "/C=US/ST=North Carolina/L=Raleigh/O=Red Hat/CN=php-https.<WILDCARD DOMAIN>"   -out <EXPORT CSR>
+vi openssl-commands.txt 
+ll
+sh openssl-commands.txt
+ll
+cd ..
+cd network-review/
+ll
+oc create secret tls php-certs --cert certs/training.crt --key certs/training.key
+oc get secrets
+cp ~/DO280/solutions/network-review/php-https.yaml .
+ll
+cat php-https.yaml
+oc create -f php-https.yaml
+oc get pods
+oc create route passthrough php-https  --service php-https --port 8443 --hostname php-https.apps.ocp4.example.com
+oc get routes
+curl -v --cacert certs/training-CA.pem https://php-https.apps.ocp4.example.com
+cd
+lab network-review grade
+lab network-review finish
+ watch oc get pods
+ watch oc get pods -o wide
+oc get resourcequotas,limitranges
+watchoc get resourcequotas,limitranges
+watch oc get resourcequotas,limitranges
+oc get resourcequotas,limitranges
+oc project
+date
+cd
+oc scale --replicas 1 deployment/loadtest
+oc autoscale deployment/loadtest --min 2 --max 10 --cpu-percent 50
+oc get route/loadtest
+oc get pods
+oc new-app --name scaling --image quay.io/redhattraining/scaling:v1.0
+oc expose svc/scaling
+oc scale --replicas 3 deployment/scaling
+oc get pods
+oc get pods -o wide
+ ~/DO280/labs/schedule-scale/curl-route.sh
+oc get pods -o wide
+oc adm top pod
+curl -X GET http://loadtest.apps.ocp4.example.com/api/loadtest/v1/mem/150/60
+oc adm top pod
+cd
+curl -X GET http://loadtest-schedule-scale.apps.ocp4.example.com/api/loadtest/v1/cpu/1
+lab schedule-pods start
+oc login -u developer -p developer https://api.ocp4.example.com:6443
+oc new-project schedule-pods
+oc new-app --name hello --image quay.io/redhattraining/hello-world-nginx:v1.0
+oc expose svc/hello
+oc get pods
+oc scale --replicas=4 deployment hello
+oc get pods
+oc get pods -o wide
+oc login -u admin -p redhat
+oc get nodes -L env
+oc label node master01 env=dev
+oc label node master02 env=prod
+oc get nodes -L env
+oc label node master03 env=prod
+oc get nodes -L env
+oc label node master03 env=env
+oc label node master03 env-
+oc get nodes -L env
+oc login -u developer -p developer
+oc edit deployment/hello
+oc get pods -o wide
+oc delete project schedule-pods
+oc get pods -o wide
+oc project schedule-pods-ts
+oc get pods -o wide
+oc describe pod hello-ts-5dbff9f44-8h7c7
+oc describe pod hello-ts-5bbd56696f-4kp7b 
+ oc get nodes -L client
+oc login -u admin -p redhat
+ oc get nodes -L client
+oc edit deployment/hello-ts
+ oc get nodes -L client
+oc get pods -o wide
+lab schedule-pods finish
+lab schedule-limit start
+oc login -u developer -p developer https://api.ocp4.example.com:6443
+oc new-project schedule-limit
+oc create deployment hello-limit --image quay.io/redhattraining/hello-world-nginx:v1.0 --dry-run=client -o yaml > ~/DO280/labs/schedule-limit/hello-limit.yaml
+cd ~/DO280/labs/schedule-limit/
+ll
+cat hello-limit.yaml 
+vim hello-limit.yaml 
+cd
+vi .vimrc
+cd ~/DO280/labs/schedule-limit/
+vim hello-limit.yaml 
+oc create --save-config -f hello-limit.yaml
+oc get os
+oc get pod
+oc get events --field-selector type=Warning
+oc cluster top
+oc cluster-info 
+vim hello-limit.yaml 
+occ apply -f hello-limit.yaml 
+oc apply -f hello-limit.yaml 
+oc get pod -o wode
+oc get pod -o wide
+oc scale --replicas 4 deployment/hello-limit
+oc get pod -o wide
+ oc get events --field-selector type=Warning
+oc delete all -l app=hello-limit
+oc create --save-config -f ~/DO280/labs/schedule-limit/loadtest.yaml
+oc get pod
+oc get routes
+oc adm top pod
+oc adm top
+oc adm top pod
+oc adm top node
+oc adm top pod
+curl -X GET http://loadtest.apps.ocp4.example.com/api/loadtest/v1/mem/200/60
+oc delete all -l app=loadtest
+oc login -u admin -p redhat
+oc create quota project-quota --hard cpu="3",memory="1G",configmaps="2" -n schedule-limit
+oc login -u developer -p developer https://api.ocp4.example.com:6443
+oc create configmap my-config
+oc login -u admin -p redhat
+oc adm create-bootstrap-project-template -o yaml > /tmp/project-template.yaml
+ll /tmp/project-template.yaml
+cat /tmp/project-template.yaml
+cat project-template.yaml
+cat  ~/DO280/solutions/schedule-limit/project-template.yaml
+cat project-template.yaml
+ /tmp/project-template.yaml
+diff   ~/DO280/solutions/schedule-limit/project-template.yaml /tmp/project-template.yaml 
+cat  ~/DO280/solutions/schedule-limit/project-template.yaml > /tmp/project-template.yaml 
+oc create -f /tmp/project-template.yaml -n openshift-config
+oc edit projects.config.openshift.io/cluster
+watch oc get pods -n openshift-apiserver
+oc new-project template-test
+oc get resourcequotas,limitranges
+oc delete project schedule-limit 
+oc delete project template-test 
+lab schedule-limit finish
+cd
+lab schedule-limit finish
+lab schedule-scale start
+oc login -u developer -p developer https://api.ocp4.example.com:6443
+oc new-project schedule-scale
+vim ~/DO280/labs/schedule-scale/loadtest.yaml
+oc create --save-config -f ~/DO280/labs/schedule-scale/loadtest.yaml
+vim ~/DO280/labs/schedule-scale/loadtest.yaml
+oc create --save-config -f ~/DO280/labs/schedule-scale/loadtest.yaml
+oc status
+oc get pods
+oc describe pod loadtest-5b96d5f9f-rm5vw 
+oc describe pod loadtest-5b96d5f9f-rm5vw |  grep -A2 -E "Limits|Requests"
+oc scale --replicas 5 deployment/loadtest
+oc get pods
+watch oc get pods
+watch oc get pods -o wide
+watch oc get hpa/loadtest
+lab schedule-scale finish
+lab console-admin start
+oc login -u admin -p redhat https://api.ocp4.example.com:6443
+oc whoami 
+oc whoami --show-console
+oc whoami --show-server 
+htpasswd -n -b tester redhat
+lab console-admin finish
+lab console-workloads start
+oc login -u admin -p redhat https://api.ocp4.example.com:6443
+oc whoami --show-console
+cat     OperatorHub
+    Installed Operators
+    Pods
+    Deployments
+    DeploymentConfigs
+    StatefulSets
+    Secrets
+    ConfigMaps
+    CronJobs
+    Jobs
+    DaemonSets
+    ReplicaSets
+    ReplicationControllers
+    HorizontalPodAutoscalers
+    Pods
+    Pod details
+PodP container-security-operator-67cb7cbc6-72lkp
+Running
+    Details
+    Metrics
+    YAML
+    Environment
+    Logs
+    Events
+    Terminal
+    Vulnerabilities
+Streaming events...
+Showing 6 events
+Older events are not stored.
+PodPcontainer-security-operator-67cb7cbc6-72lkpNamespaceNSopenshift-operators
+1 minute ago
+Generated from kubelet on master01
+cat ~/DO280/labs/console-workloads/deployment.yaml
+oc project console-apps
+oc get pods
+oc get imagemanifestvulns.secscan.quay.redhat.com --selector=console-apps/hello-world-685d5cf88-pdh78 -o jsonpath='{.items[*].spec.features[*].vulnerabilities[*].name}'
+oc get imagemanifestvulns.secscan.quay.redhat.com --selector=console-apps/hello-world-685d5cf88-pdh78 
+oc get imagemanifestvulns.secscan.quay.redhat.com --selector=console-apps/hello-world-685d5cf88-pdh78 -o json | less
+lab console-workloads finish
+lab console-metrics start
+~/DO280/labs/console-metrics/load.sh
+lab console-metrics finish
+lab console-review start
+lab console-review finish
+lab console-review start
+oc login -u admin -p redhat https://api.ocp4.example.com:6443
+oc whoami --show-con
+oc whoami --show-console 
+htpasswd -n -b dba redhat
+htpasswd -n -b tester redhat
+htpasswd -n -b dba redhat
+oc login -u dba -p redhat
+oc new-app --name database 
+--image registry.redhat.io/rhel8/mysql-80:1     
+-e MYSQL_USER=famous      
+-e MYSQL_PASSWORD=famous  
+-e MYSQL_DATABASE=famous
+oc new-app --name database --image registry.redhat.io/rhel8/mysql-80:1     -e MYSQL_USER=famous      -e MYSQL_PASSWORD=famous  -e MYSQL_DATABASE=famous
+oc status
+oc project
+oc project console-review
+oc whoami 
+oc login -u dba -p redhat https://api.ocp4.example.com:6443
+oc project console-review
+oc new-project console-rev
+oc project console-review
+oc login -u dba -p redhat https://api.ocp4.example.com:6443
+oc project console-review
+oc new-app --name database --image registry.redhat.io/rhel8/mysql-80:1     -e MYSQL_USER=famous      -e MYSQL_PASSWORD=famous  -e MYSQL_DATABASE=famous
+oc get pods
+oc get pods -w
+cat  ~/DO280/labs/console-review/deployment.yaml
+cat  ~/DO280/labs/console-review/service.yaml 
+lab console-review grade
+lab console-review finish
+lab review-troubleshoot start
+oc login -u admin -p redhat https://api.ocp4.example.com:6443
+oc get clusterversion
+source /usr/local/etc/ocp4.config
+oc login -u kubeadmin -p ${RHT_OCP4_KUBEADM_PASSWD} https://api.ocp4.example.com:6443
+echo ${RHT_OCP4_KUBEADM_PASSWD}
+oc whoami --show-console 
+oc get clusterversion
+oc adm upgrade
+oc new-project review-troubleshoot
+oc new-app --name hello-world-nginx https://github.com/RedHatTraining/DO280-apps --context-dir hello-world-nginx
+oc logs -f buildconfig/hello-world-nginx
+oc get pods
+oc logs -f buildconfig/hello-world-nginx
+oc get pods
+oc get pods -w
+oc expose service hello-world-nginx --hostname hello-world.apps.ocp4.example.com
+oc get route
+curl -s "http://hello-world.apps.ocp4.example.com" | grep -i Hello
+touch /tmp/cluster-users
+for USER in admin leader developer qa-engineer;     do     htpasswd -B -b /tmp/cluster-users "${USER}" review;     done
+cat /tmp/cluster-users
+oc create secret generic compreview-users --from-file htpasswd=/tmp/cluster-users -n openshift-config
+oc get oauth cluster -o yaml > /tmp/oauth.yaml
+vi /tmp/oauth.yaml
+oc replace -f /tmp/oauth.yaml
+oc adm policy add-cluster-role-to-user cluster-admin admin
+watch oc get pods -n openshift-authentication
+oc login -u admin -p review
+oc adm policy add-cluster-role-to-user cluster-admin admin
+oc login -u admin -p review
+oc login -u admin -p review  https://api.ocp4.example.com:6443
+oc get oauth cluster -o yaml > /tmp/oauth.yaml
+cat /tmp/oauth.yaml
+oc get secret
+history
+cat /tmp/oauth.yaml
+oc login -u admin -p review  https://api.ocp4.example.com:6443
+lab review-troubleshoot grade
+cd /tmp/
+ls -la
+ls -ltr
+cat cluster-users
+history
+for USER in admin leader developer qa-engineer;     do     htpasswd -B -b /tmp/cluster-users "${USER}" review;     done
+oc create secret generic compreview-users --from-file htpasswd=/tmp/cluster-users -n openshift-config
+oc edit secret generic compreview-users --from-file htpasswd=/tmp/cluster-users -n openshift-config
+oc edit --help
+oc edit secret generic compreview-users -f htpasswd=/tmp/cluster-users 
+oc edit secret compreview-users -f htpasswd=/tmp/cluster-users 
+oc edit secret compreview-users -f /tmp/cluster-users 
+oc edit  -f /tmp/cluster-users 
+oc get oauth cluster -o yaml
+oc set data secret/compreview-users --from-file htpasswd=/tmp/cluster-users -n openshift-config 
+ll /tmp/cluster-users
+date
+watch oc get pods -n openshift-authentication
+oc login -u admin -p review
+
+lab review-troubleshoot finish
+lab review-troubleshoot start
+history 
+history -100 | cut -c8-
+history 100 | cut -c8-
+source /usr/local/etc/ocp4.config
+oc login -u kubeadmin -p ${RHT_OCP4_KUBEADM_PASSWD} https://api.ocp4.example.com:6443
+oc new-project review-troubleshoot
+oc new-app --name hello-world-nginx https://github.com/RedHatTraining/DO280-apps --context-dir hello-world-nginx
+oc status
+oc expose service hello-world-nginx --hostname hello-world.apps.ocp4.example.com
+oc get route
+curl -s "http://hello-world.apps.ocp4.example.com" | grep -i Hello
+touch /tmp/cluster-users
+for USER in admin leader developer qa-engineer;     do     htpasswd -B -b /tmp/cluster-users "${USER}" review;     done
+cat /tmp/cluster-users
+oc create secret generic compreview-users --from-file htpasswd=/tmp/cluster-users -n openshift-config
+oc get oauth cluster -o yaml > /tmp/oauth.yaml
+vi /tmp/oauth.yaml
+
+watch oc get pods -n openshift-authentication
+oc adm policy add-cluster-role-to-user cluster-admin admin
+watch oc get pods -n openshift-authentication
+oc login -u admin -p review
+watch oc get pods -n openshift-authentication
+history 100 | cut -c8-
+oc replace -f /tmp/oauth.yaml
+oc get oauth cluster -o yaml > /tmp/oauth2.yaml
+cat /tmp/oauth2.yaml
+cat /tmp/oauth.yaml
+oc replace -f /tmp/oauth2.yaml
+watch oc get pods -n openshift-authentication
+oc login -u admin -p review
+for GROUP in leaders developers qa;  do  oc adm groups new "${GROUP}";  done
+oc adm policy add-cluster-role-to-group self-provisioner leaders
+oc adm groups add-users leaders leader
+oc adm groups add-users developers developer
+oc adm groups add-users qa qa-engineer
+oc adm policy remove-cluster-role-from-group self-provisioner system:authenticated:oauth
+oc project
+oc policy add-role-to-group edit developers
+oc policy add-role-to-group view qa
+oc login -u developer -p review
+oc new-app --name mysql --image registry.redhat.io/rhel8/mysql-80:1-139
+oc create secret generic mysql --from-literal password=r3dh4t123
+oc set env deployment mysql --prefix MYSQL_ROOT_ --from secret/mysql
+oc set volumes deployment/mysql --name mysql-storage --add --type pvc --claim-size 2Gi --claim-mode rwo --mount-path /var/lib/mysql/data
+oc get pods -l deployment=mysql
+oc get pvc
+oc exec -it mysql-b697d6cf8-wdftw -- df -h /var/lib/mysql/data
+oc new-app --name wordpress     --image quay.io/redhattraining/wordpress:5.7-php7.4-apache     -e WORDPRESS_DB_HOST=mysql     -e WORDPRESS_DB_NAME=wordpress     -e WORDPRESS_DB_USER=root     -e WORDPRESS_USER=wpuser     -e WORDPRESS_PASSWORD=wppass     -e WORDPRESS_TITLE=review-troubleshoot     -e WORDPRESS_URL=wordpress.apps.ocp4.example.com     -e WORDPRESS_EMAIL=student@redhat.com
+oc get pod
+oc get pod -w
+oc logs
+oc logs -p wordpress-76b74f99f-sh8fr
+oc logs -f wordpress-76b74f99f-sh8fr
+oc set env deployment/wordpress --prefix WORDPRESS_DB_ --from secret/mysql
+oc logs -f wordpress-76b74f99f-sh8fr
+oc get pod -w
+oc logs -f wordpress-97cd9d79d-xxxl5 
+oc create serviceaccount wordpress-sa
+oc login -u admin -p review
+oc adm policy add-scc-to-user anyuid -z wordpress-sa
+oc login -u developer -p review
+oc get pod -w
+set serviceaccount deployment/wordpress wordpress-sa
+oc get pods -l deployment=mysql
+oc exec mysql-b697d6cf8-wdftw -- /usr/bin/mysql -uroot -e "CREATE DATABASE wordpress"
+oc get pod -w
+oc get pod
+oc expose service wordpress --hostname wordpress.apps.ocp4.example.com
+oc get pod
+oc logs -f wordpress-97cd9d79d-xxxl5 
+oc get pod
+oc stat
+oc status 
+oc status --suggest
+history
+oc get sa
+oc get sa -o wide
+oc describe sa wordpress-sa
+lab review-troubleshoot grade
+set serviceaccount deployment/wordpress wordpress-sa
+oc set serviceaccount deployment/wordpress wordpress-sa
+oc describe sa wordpress-sa
+oc get sa 
+oc get sa oc get pods
+ oc get pod
+~/DO280/labs/review-troubleshoot/deploy_famous-quotes.sh
+cat ~/DO280/labs/review-troubleshoot/deploy_famous-quotes.sh
+oc get pod
+oc set env deployment famous-quotes --prefix QUOTES_ --from secret/mysql
+oc get pods -l app=famous-quotes
+oc get events --sort-by='{.lastTimestamp}' |  grep -i Scheduling
+oc get deployment/famous-quotes -o yaml > /tmp/famous-deploy.yaml
+vi /tmp/famous-deploy.yaml
+oc replace -f /tmp/famous-deploy.yaml
+oc get pods -l app=famous-quotes
+oc expose service famous-quotes --hostname quotes.apps.ocp4.example.com
+curl -s "http://quotes.apps.ocp4.example.com" | egrep '</?title>'
+lab review-troubleshoot grade
+oc status
+oc describe deployment/wordpress
+oc describe deployment/wordpress | grep sa
+lab review-troubleshoot finnish
+lab review-troubleshoot finish 
+lab review-template start
+oc login -u admin -p redhat
+oc login -u admin -p redhat https://api.ocp4.example.com:6443
+lab review-template stop
+lab review-template finish
+lab review-template start
+oc login -u admin -p redhat https://api.ocp4.example.com:6443
+oc adm create-bootstrap-project-template -o yaml > ~/DO280/labs/review-template/project-template.yaml
+cd ~/DO280/labs/review-template
+ll
+cat project-template.yaml 
+vim project-template.yaml 
+ll sample-files/
+cat allow-from-openshift-ingress.yaml
+cat sample-files/allow-from-openshift-ingress.yaml
+cat sample-files/allow-same-namespace.yaml 
+cat sample-files/allow-same-namespace.yaml >> project-template.yaml 
+vim project-template.yaml 
+cat sample-files/allow-from-openshift-ingress.yaml >> project-template.yaml
+vim project-template.yaml 
+cat  ~/DO280/solutions/review-template/project-template.yaml
+diff  ~/DO280/solutions/review-template/project-template.yaml project-template.yaml
+mv project-template.yaml project-template.yaml.bk
+cp ~/DO280/solutions/review-template/project-template.yaml .
+~/DO280/solutions/review-template/project-template.yaml
+oc create -f project-template.yaml -n openshift-config
+oc get templates -n openshift-config
+oc edit projects.config.openshift.io/cluster
+oc login -u developer -p developer
+oc login -u admin -p redhat
+oc login -u developer -p developer
+oc new-project review-template
+oc get networkpolicies
+oc get limitranges
+oc get resourcequotas
+oc get project review-template --show-labels
+pec: {}
+oc new-app --name hello-secure --image quay.io/redhattraining/hello-world-secure:v1.0
+oc get pods
+oc get pods -w
+oc logs -f hello-secure-75dfcd4c9d-65fft 
+oc logs  hello-secure-75dfcd4c9d-65fft 
+oc logs
+oc logs -h
+ll
+oc create secret tls hello-tls --cert hello-secure-combined.pem --key hello-secure-key.pem
+cat hello-secure-combined.pem
+less hello-secure-key.pem
+oc set volumes deployment/hello-secure --add --type secret --secret-name hello-tls --mount-path /run/secrets/nginx
+oc logs  hello-secure-75dfcd4c9d-65fft 
+oc get pod
+oc logs  hello-secure-6985bcd465-nn24k 
+openssl x509 -in hello-secure-combined.pem -noout -ext 'subjectAltName'
+oc create route passthrough --service hello-secure --hostname hello-secure.apps.ocp4.example.com
+curl -s https://hello-secure.apps.ocp4.example.com 
+   | grep -i Hello
+man curl
+curl  https://hello-secure.apps.ocp4.example.com 
+man curl
+curl  --cert-stat https://hello-secure.apps.ocp4.example.com 
+curl  --cert-status https://hello-secure.apps.ocp4.example.com 
+curl -s -k https://hello-secure.apps.ocp4.example.com 
+oc autoscale deployment/hello-secure --min 1 --max 5 --cpu-percent 80
+~/DO280/solutions/review-template/test-hpa.sh
+lab review-template grade
+lab review-template finish
+pwd
+cd
+cd DO180-apps/
+ll
+ls -la
+history 
+history | cut -c 8- 
+history | cut -c 8-  > history_DO285_2.txt 
